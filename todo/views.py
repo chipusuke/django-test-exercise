@@ -6,6 +6,14 @@ from todo.models import Task
 
 # Create your views here.
 def index(request):
+        tasks = Task.objects.all()
+
+    order = request.GET.get('order')
+    if order == 'due':
+        tasks = tasks.order_by('due_at')
+    elif order == 'post':
+        tasks = tasks.order_by('-id')
+
     if request.method == 'POST':
         task = Task(title=request.POST['title'], due_at=make_aware(parse_datetime(request.POST['due_at'])))
         task.save()
@@ -19,6 +27,7 @@ def index(request):
         'tasks': tasks
     }
     return render(request, 'todo/index.html', context)
+
 
 def detail(request, task_id):
     try:
