@@ -6,7 +6,7 @@ from todo.models import Task
 
 # Create your views here.
 def index(request):
-        tasks = Task.objects.all()
+    tasks = Task.objects.all()
 
     order = request.GET.get('order')
     if order == 'due':
